@@ -1,0 +1,166 @@
+"use strict";
+
+let photos, totalPages, total, perpage = 20;
+
+let pagination = document.querySelector('.pagination-numbers');
+
+const container = document.querySelector('.container')
+const gallery = document.querySelector('.gallery-box');
+const showButton = document.querySelector('.show-button') || document.createElement('button');
+const backButton = document.querySelector('.back-to-gallery');
+const btnBlock = document.querySelector('.btn-block');
+const recycles = document.querySelector('.like.recycle-bin');
+
+let clearButton;
+let query;
+
+let favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos'));
+let currentPage = 1;
+
+function showMyFavouritesPhotos() {        
+        
+    gallery.innerHTML = '';
+
+    Object.keys(favouritePhotos).forEach(url => {
+        const galleryItem = document.createElement('div');
+        galleryItem.className = 'gallery-item';
+        const photoTitle = favouritePhotos[url];
+
+        const imgUrl = url;
+        // console.log(favouritePhotos);
+
+        const img = document.createElement('img');
+        img.src = imgUrl;
+        const title = document.createElement('h6');
+        title.innerText = photoTitle;
+        const recycleBin = document.createElement('div');
+        recycleBin.classList.add('like', 'recycle-bin');
+
+        galleryItem.appendChild(img);
+        galleryItem.appendChild(title);
+        galleryItem.appendChild(recycleBin);
+        gallery.appendChild(galleryItem);
+
+        // console.log("favouritePhotos", favouritePhotos);
+        // console.log(imgUrl);
+
+        if (Object.keys(favouritePhotos).length !== 0) {
+            clearButton = document.querySelector('.clear-button') || document.createElement('button');
+            clearButton.className = 'clear-button';
+            clearButton.innerText = 'Clear favourites';
+            btnBlock.append(clearButton);
+            backButton.after(clearButton);
+        } else {
+            document.querySelector('.clear-button').remove();
+        };
+
+        recycleBin.addEventListener('click', () => {
+            galleryItem.remove();
+            const favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos'));
+            delete favouritePhotos[url];
+            localStorage.setItem('favouritePhotos', JSON.stringify(favouritePhotos));
+        });        
+    });
+
+    clearButton.addEventListener('click', (favouritePhotos) => {
+        favouritePhotos = localStorage.setItem('favouritePhotos', "null");
+        gallery.innerHTML = '';
+        pagination.innerHTML = '';
+        clearButton.remove();
+    });
+
+    loadPagination(totalPages, currentPage);
+}
+
+// async function loadNextPage(page) {
+//     currentPage = page;
+//     const url = `${baseUrl}?method=flickr.photos.search&api_key=${apiKey}&text=${query}&per_page=100&page=${currentPage}&format=json&nojsoncallback=1`;
+//     const response = await fetch(url);
+//     data = await response.json();
+//     photos = data.photos.photo;
+//     showMyFavouritesPhotos();
+//     loadPagination(totalPages, currentPage);
+//     // window.scrollTo(0, 0);
+// };
+
+function loadNextPage(page) {
+    currentPage = page;
+
+    showMyFavouritesPhotos();
+    loadPagination(totalPages, currentPage);
+
+    const prevRange = (page - 1) * perpage;
+    const currRange = page * perpage;
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    galleryItems.forEach((item, index) => {
+        item.classList.add('hidden');
+        if (index >= prevRange && index < currRange) {
+            item.classList.remove('hidden');
+        }
+    })    
+};
+
+function loadPagination(totalPages, currentPage) {
+    let li = '';
+    total = Object.keys(favouritePhotos).length;    
+    totalPages = Math.ceil(total / perpage);
+    let activeLi;
+    let beforePages = currentPage - 1;
+    let afterPages = currentPage + 1;
+
+    if (currentPage > 1) {
+        li += `<li class="btn prev" onclick='loadNextPage(${currentPage - 1})'>&lt;</li>`;        
+    }
+
+    // if (currentPage > 2) {
+    //     li += `<li class="numb" onclick='loadNextPage(1)'>1</li>`;
+    //     if (currentPage > 3) {
+    //         li += `<li class="dots">...</li>`;
+    //     }
+    // }
+
+    if (currentPage == totalPages && totalPages != 1) {
+        beforePages = beforePages - 2;
+    } else if (currentPage == totalPages - 1){
+        beforePages = beforePages - 1;
+    }
+
+    if (currentPage == 1) {
+        afterPages = afterPages + 2;
+    } else if (currentPage == 2){
+        afterPages = afterPages + 1;
+    }
+
+    for (let i = beforePages; i <= afterPages; i++) {
+        if (i > totalPages) {
+            continue;
+        }
+        if (i == 0) {
+            i = i + 1;
+        }
+        if (currentPage == i) {
+            activeLi = 'active';
+        } else {
+            activeLi = '';
+        }
+        li += `<li class="numb ${activeLi}" onclick='loadNextPage(${i})'>${i}</li>`;
+    }
+
+    // if (currentPage < totalPages - 1) {        
+    //     if (currentPage < totalPages - 2) {
+    //         li += `<li class="dots">...</li>`;
+    //     }
+    //     li += `<li class="numb" onclick='loadNextPage(${totalPages})'>${totalPages}</li>`;
+    // }
+
+    if (currentPage < totalPages) {
+        li += `<li class="btn next" onclick='loadNextPage(${currentPage + 1})'>&gt;</li>`;
+    }
+    pagination.innerHTML = li;
+};
+
+backButton.addEventListener('click', () => {
+    window.location.href = '/index.html';
+});
+
+showMyFavouritesPhotos();

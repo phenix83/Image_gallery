@@ -1,0 +1,301 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    list-style: none;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.gallery__loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    max-width: 50px;
+    max-height: 50%;
+}
+
+.gallery__loading img {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+.container {
+    position: relative;
+    min-height: 100vh;
+    max-width: 1000px;
+    background-color: #7aa18fa3;
+    width: 100%;
+    margin: 0 auto;    
+    padding: 40px 20px;
+}
+
+.container h1 {
+    margin: 0 auto;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.search-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.container .search-panel {
+    position: relative;
+    height: 42px;
+    max-width: 400px;
+    width: 100%;    
+}
+
+.search-panel input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    background-color: #323334;
+    padding: 0 15px 0 45px;
+    color: white;    
+    border-radius: 6px;
+}
+
+.search-panel i {
+    position: absolute;
+    color: #999;
+    z-index: 2;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+.search-box button,
+.back-to-gallery,
+.clear-button {
+    height: 42px;
+    min-width: 80px;
+    width: fit-content;
+    padding: 0 10px;
+    background-color: rgb(251, 226, 152);
+    border: none;
+    border-radius: 6px;
+    transition: all .4s ease;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-block {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* .back-to-gallery {
+    display: block;
+    margin: 0 auto;
+    margin-top: 30px;
+} */
+
+.search-box button:hover,
+.back-to-gallery:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: palegreen;
+}
+
+.clear-button:hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: rgb(255, 138, 138);
+}
+
+.gallery-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    gap: 16px;
+}
+
+.gallery-item {
+    position: relative;
+    width: 210px;
+    height: 300px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.gallery-item.border {
+    border: 6px solid #32a852;
+}
+
+.add-button {
+    width: 80px;
+    height: 50px;
+    background-color: #32a852;
+    position: absolute;
+    z-index: 2;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    border-radius: 8px;
+    transition: transform 0.2s linear;
+}
+
+.gallery-item:hover img{
+    transform: scale(1.05);
+}
+
+.gallery-item h6 {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: white;
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+
+.like {
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    top: 2%;
+    right: 2%;
+}
+
+.like-no {
+    background: url('../images/dislike.svg') no-repeat;
+}
+
+.like-yes {
+    background: url('../images/like.svg') no-repeat;
+}
+
+.recycle-bin {
+    width: 36px;
+    height: 36px;
+    padding: 3px;
+    background: url('../images/red-trash-can-icon.svg') center no-repeat;
+    transition: 0.2s ease-in-out;
+}
+
+.recycle-bin:hover {
+transform: scale(1.1);
+}
+
+.pagination-container {
+    max-width: 480px;
+    min-height: 40px;
+    margin: 50px auto 0 auto;
+}
+
+.pagination-container button {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: transparent;
+}
+
+.pagination-numbers .prev {
+    margin-right: 10px;
+}
+
+.pagination-numbers .next {
+    margin-left: 10px;
+}
+
+/* .pagination-container button:hover {
+    background-color: #fff;
+    transition: all 0.2s ease-in-out;
+} */
+
+.pagination-numbers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* gap: 16px; */
+    flex-wrap: wrap;
+    width: 100%;
+    /* height: 40px; */
+    transition: all .3s ease-in-out;
+}
+
+.pagination-numbers li {
+    /* width: 40px;
+    height: 40px; */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+    flex: 0 0 40px;
+
+    line-height: 40px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.pagination-numbers li.numb {
+    width: 40px;
+    height: 40px;
+}
+
+.pagination-numbers li.dots {
+    font-size: 22px;
+    cursor: default;
+}
+
+.pagination-numbers li.active {    
+    color: #fff;
+    background-color: #0085b6;
+}
+
+.pagination-numbers li.numb.active:hover {
+    background-color: #0085b6;
+}
+
+.pagination-numbers li.numb:hover,
+.pagination-numbers li.prev:hover,
+.pagination-numbers li.next:hover {
+    cursor: pointer;
+    background-color: #fff;
+}
+
+
+@media (max-width: 701px) {
+    .search-box {
+        flex-direction: column;
+    }
+    .search-box button {
+        max-width: 400px;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 440px) {
+    .pagination-numbers li.btn {
+        display: none;
+    }
+}
