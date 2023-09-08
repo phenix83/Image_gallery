@@ -1,6 +1,11 @@
 "use strict";
 
-let photos, totalPages, total, perpage = 20;
+let totalPages, total, perpage = 10;
+let currentPage = 1;
+let clearButton;
+let query;
+
+let favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos'));
 
 let pagination = document.querySelector('.pagination-numbers');
 
@@ -10,12 +15,7 @@ const showButton = document.querySelector('.show-button') || document.createElem
 const backButton = document.querySelector('.back-to-gallery');
 const btnBlock = document.querySelector('.btn-block');
 const recycles = document.querySelector('.like.recycle-bin');
-
-let clearButton;
-let query;
-
-let favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos'));
-let currentPage = 1;
+const backToTopButton = document.querySelector('#backToTop');
 
 function showMyFavouritesPhotos() {        
         
@@ -72,17 +72,6 @@ function showMyFavouritesPhotos() {
     loadPagination(totalPages, currentPage);
 }
 
-// async function loadNextPage(page) {
-//     currentPage = page;
-//     const url = `${baseUrl}?method=flickr.photos.search&api_key=${apiKey}&text=${query}&per_page=100&page=${currentPage}&format=json&nojsoncallback=1`;
-//     const response = await fetch(url);
-//     data = await response.json();
-//     photos = data.photos.photo;
-//     showMyFavouritesPhotos();
-//     loadPagination(totalPages, currentPage);
-//     // window.scrollTo(0, 0);
-// };
-
 function loadNextPage(page) {
     currentPage = page;
 
@@ -124,14 +113,13 @@ function loadPagination(totalPages, currentPage) {
     } else if (currentPage == totalPages - 1){
         beforePages = beforePages - 1;
     }
-
     if (currentPage == 1) {
         afterPages = afterPages + 2;
     } else if (currentPage == 2){
         afterPages = afterPages + 1;
     }
 
-    for (let i = beforePages; i <= afterPages; i++) {
+    for (let i = 1; i <= afterPages; i++) {
         if (i > totalPages) {
             continue;
         }
@@ -163,4 +151,18 @@ backButton.addEventListener('click', () => {
     window.location.href = '/index.html';
 });
 
-showMyFavouritesPhotos();
+loadNextPage(1);
+
+const scrollFunction = () => {
+    if (document.body.scrollTop > 150 || document.documentElement.scrollTop > 150) {
+        backToTopButton.style.display = 'block';
+    } else {
+        backToTopButton.style.display = 'none';
+    }
+}
+
+window.onscroll = function() {scrollFunction()};
+
+backToTopButton.addEventListener('click', () => {
+    window.scrollTo(0, 0);
+})

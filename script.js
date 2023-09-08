@@ -13,6 +13,7 @@ const gallery = document.querySelector('.gallery-box');
 const showButton = document.querySelector('.show-button') || document.createElement('button');
 
 const form = document.querySelector('form');
+const backToTopButton = document.querySelector('#backToTop');
 let query;
 
 let favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos')) || {};
@@ -172,3 +173,17 @@ form.addEventListener('submit', event => {
     query = searchBox.value;
     searchPhotos(query);
 });
+
+const scrollFunction = () => {
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        backToTopButton.style.display = 'block';
+    } else {
+        backToTopButton.style.display = 'none';
+    }
+}
+
+window.onscroll = function() {scrollFunction()};
+
+backToTopButton.addEventListener('click', () => {
+    window.scrollTo(0, 0);
+})
