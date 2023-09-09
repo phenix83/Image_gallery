@@ -163,7 +163,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 showButton.addEventListener('click', () => {
-    window.location.href = '/favourites-page.html';
+    window.location.href = 'favourites-page.html';
 });
 
 
