@@ -184,18 +184,18 @@ html {
 }
 
 .like-no {
-    background: url('../images/dislike.svg') no-repeat;
+    background: url('images/dislike.svg') no-repeat;
 }
 
 .like-yes {
-    background: url('../images/like.svg') no-repeat;
+    background: url('images/like.svg') no-repeat;
 }
 
 .recycle-bin {
     width: 36px;
     height: 36px;
     padding: 3px;
-    background: url('../images/red-trash-can-icon.svg') center no-repeat;
+    background: url('images/red-trash-can-icon.svg') center no-repeat;
     transition: 0.2s ease-in-out;
 }
 
