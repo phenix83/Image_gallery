@@ -31,8 +31,7 @@ html {
     position: relative;
     min-height: 100vh;
     max-width: 1000px;
-    /* background-color: #7aa18fa3; */
-    background: linear-gradient(red,orange,yellow,green,blue,indigo,violet);
+    background-color: #a1c3d1;
     width: 100%;
     margin: 0 auto;    
     padding: 40px 20px;
@@ -42,6 +41,8 @@ html {
     margin: 0 auto;
     margin-bottom: 40px;
     text-align: center;
+    color: #f0ebf4;
+    text-transform: uppercase;
 }
 
 .search-box {
@@ -64,15 +65,19 @@ html {
     width: 100%;
     outline: none;
     border: none;
-    background-color: #323334;
+    background-color: #B29BC7;
     padding: 0 15px 0 45px;
-    color: white;    
+    color: #f0ebf4;    
     border-radius: 6px;
+}
+
+::placeholder {
+    color: #f0ebf4;
 }
 
 .search-panel i {
     position: absolute;
-    color: #999;
+    color: #f0ebf4;
     z-index: 2;
     top: 50%;
     left: 15px;
@@ -87,7 +92,8 @@ html {
     min-width: 80px;
     width: fit-content;
     padding: 0 10px;
-    background-color: rgb(251, 226, 152);
+    background-color: #f172a1;
+    color: #f0ebf4;
     border: none;
     border-radius: 6px;
     transition: all .4s ease;
@@ -108,14 +114,12 @@ html {
 } */
 
 .search-box button:hover,
-.back-to-gallery:hover {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    background-color: palegreen;
-}
-
+.back-to-gallery:hover,
 .clear-button:hover {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    background-color: rgb(255, 138, 138);
+    box-shadow: 0 15px 15px -12px rgb(2 62 83/67%);
+    background-color: #e64398;
+    color: #f0ebf4;
+    transform: translateY(-4px);
 }
 
 .gallery-box {
@@ -249,6 +253,7 @@ transform: scale(1.1);
     align-items: center;
     transition: all 0.2s ease-in-out;
     flex: 0 0 40px;
+    color: #AD2E95;
 
     line-height: 40px;
     text-align: center;
@@ -270,11 +275,11 @@ transform: scale(1.1);
 
 .pagination-numbers li.active {    
     color: #fff;
-    background-color: #0085b6;
+    background-color: #AD2E95;
 }
 
 .pagination-numbers li.numb.active:hover {
-    background-color: #0085b6;
+    background-color: #AD2E95;
 }
 
 .pagination-numbers li.numb:hover,
@@ -298,14 +303,14 @@ transform: scale(1.1);
     border-radius: 4px;
     z-index: 99;
     cursor: pointer;
-    background-color: #0085b6;
+    background-color: #AD2E95;
     transition: all 0.3s ease-in-out;
 }
 
 #backToTop:hover {
     background-color: #fff;
-    border: 1px solid #0085b6;
-    color: #000;
+    border: 1px solid #AD2E95;
+    color: #AD2E95;
 }
 
 
