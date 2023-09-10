@@ -30,7 +30,7 @@ html {
 .container {
     position: relative;
     min-height: 100vh;
-    max-width: 1000px;
+    /* max-width: 1000px; */
     background-color: #a1c3d1;
     width: 100%;
     margin: 0 auto;    
@@ -121,6 +121,26 @@ html {
     color: #f0ebf4;
     transform: translateY(-2px);
 }
+
+#spinner {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+#spinner img {
+    width: 10%;
+}
+
+/* @keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+} */
 
 .gallery-box {
     display: flex;
@@ -293,7 +313,7 @@ transform: scale(1.1);
     display: none;
     position: fixed;
     bottom: 40px;
-    right: 40px;
+    right: 3%;
     width: 40px;
     height: 40px;
     color: #fff;

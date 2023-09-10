@@ -59,6 +59,10 @@ function showMyFavouritesPhotos() {
             const favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos'));
             delete favouritePhotos[url];
             localStorage.setItem('favouritePhotos', JSON.stringify(favouritePhotos));
+            if (Object.keys(favouritePhotos).length == 0) {
+                pagination.innerHTML = '';
+                clearButton.remove();
+            }
         });        
     });
 

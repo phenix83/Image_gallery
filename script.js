@@ -19,9 +19,20 @@ let query;
 let favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos')) || {};
 
 async function searchPhotos(query) {
+    if (!query) return;
     const url = `${baseUrl}?method=flickr.photos.search&api_key=${apiKey}&text=${query}&per_page=100&page=1&format=json&nojsoncallback=1`;
-    const response = await fetch(url);
-    data = await response.json();
+    
+    try {
+        document.querySelector('#spinner').style.display = 'flex';
+        const response = await fetch(url);
+        data = await response.json();        
+    } catch (error) {
+        console.log(error);
+        return [];
+    } finally {
+        document.querySelector('#spinner').style.display = 'none';
+    }
+    
     photos = data.photos.photo;
     perpage = data.photos.perpage;
     total = data.photos.total;
