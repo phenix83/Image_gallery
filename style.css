@@ -107,12 +107,6 @@ html {
     gap: 20px;
 }
 
-/* .back-to-gallery {
-    display: block;
-    margin: 0 auto;
-    margin-top: 30px;
-} */
-
 .search-box button:hover,
 .back-to-gallery:hover,
 .clear-button:hover {
@@ -122,6 +116,11 @@ html {
     transform: translateY(-2px);
 }
 
+.error {
+    justify-content: center;
+    color: #db8181;
+}
+
 #spinner {
     display: none;
     position: fixed;
@@ -129,25 +128,92 @@ html {
     top: 0;
     justify-content: center;
     align-items: center;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
+    z-index: 100;
 }
 
 #spinner img {
     width: 10%;
 }
 
-/* @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-} */
+.spinner-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ring {
+    width: 100px;
+    height: 100px;
+    border: 0px solid #011015;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.ring:nth-child(1) {
+    border-bottom-width: 8px;
+    border-color: rgb(255, 0, 255);
+    animation: rotate 2s linear infinite;
+}
+
+.ring:nth-child(2) {
+    border-right-width: 8px;
+    border-color: rgb(0, 247, 255);
+    animation: rotate2 2s linear infinite;
+}
+
+.ring:nth-child(3) {
+    border-top-width: 8px;
+    border-color: rgb(0, 255, 13);
+    animation: rotate3 2s linear infinite;
+}
+
+.loading {
+    color: white;
+    font-size: 10px;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotateX(35deg) rotateY(-45deg) rotateZ(0deg);
+    }
+    100% {
+        transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+    }
+}
+
+@keyframes rotate2 {
+    0% {
+        transform: rotateX(50deg) rotateY(-45deg) rotateZ(0deg);
+    }
+    100% {
+        transform: rotateX(50deg) rotateY(-45deg) rotateZ(360deg);
+    }
+}
+
+@keyframes rotate3 {
+    0% {
+        transform: rotateX(35deg) rotateY(55deg) rotateZ(0deg);
+    }
+    100% {
+        transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+    }
+}
 
 .gallery-box {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
-    gap: 16px;
+    gap: 16px;    
+}
+
+.gallery-item-box {
+    overflow: hidden;
+    border-radius: 6px;
+    position: relative;
 }
 
 .gallery-item {
@@ -155,7 +221,10 @@ html {
     width: 210px;
     height: 300px;
     border-radius: 6px;
-    overflow: hidden;
+    /* overflow: hidden; */
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: transform 0.2s linear;
 }
 
 .gallery-item.border {
@@ -185,6 +254,10 @@ html {
     transform: scale(1.05);
 }
 
+.gallery-item:hover {
+    transform: scale(1.05);
+}
+
 .gallery-item h6 {
     position: absolute;
     bottom: 10px;
@@ -200,7 +273,7 @@ html {
     height: 48px;
     position: absolute;
     top: 2%;
-    right: 2%;
+    right: 3%;
 }
 
 .like-no {
@@ -212,16 +285,20 @@ html {
 }
 
 .recycle-bin {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
+    top: 4%;
+    right: 4%;
     padding: 3px;
     background: url('images/red-trash-can-icon.svg') center no-repeat;
     transition: 0.2s ease-in-out;
+    z-index: 10;
+    position: absolute;
 }
 
-.recycle-bin:hover {
+/* .recycle-bin:hover {
 transform: scale(1.1);
-}
+} */
 
 .pagination-container {
     max-width: 480px;

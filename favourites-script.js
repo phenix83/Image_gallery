@@ -22,24 +22,28 @@ function showMyFavouritesPhotos() {
     gallery.innerHTML = '';
 
     Object.keys(favouritePhotos).forEach(url => {
+        const galleryItemBox = document.createElement('div');
+        galleryItemBox.className = 'gallery-item-box';
         const galleryItem = document.createElement('div');
         galleryItem.className = 'gallery-item';
         const photoTitle = favouritePhotos[url];
 
         const imgUrl = url;
+        galleryItem.style.backgroundImage = `url(${imgUrl})`;
         // console.log(favouritePhotos);
 
-        const img = document.createElement('img');
-        img.src = imgUrl;
+        // const img = document.createElement('img');
+        // img.src = imgUrl;
         const title = document.createElement('h6');
         title.innerText = photoTitle;
         const recycleBin = document.createElement('div');
         recycleBin.classList.add('like', 'recycle-bin');
 
-        galleryItem.appendChild(img);
+        // galleryItem.appendChild(img);
         galleryItem.appendChild(title);
-        galleryItem.appendChild(recycleBin);
-        gallery.appendChild(galleryItem);
+        galleryItemBox.appendChild(recycleBin);
+        galleryItemBox.appendChild(galleryItem);
+        gallery.appendChild(galleryItemBox);
 
         // console.log("favouritePhotos", favouritePhotos);
         // console.log(imgUrl);
@@ -55,7 +59,7 @@ function showMyFavouritesPhotos() {
         };
 
         recycleBin.addEventListener('click', () => {
-            galleryItem.remove();
+            galleryItemBox.remove();
             const favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos'));
             delete favouritePhotos[url];
             localStorage.setItem('favouritePhotos', JSON.stringify(favouritePhotos));
@@ -84,7 +88,7 @@ function loadNextPage(page) {
 
     const prevRange = (page - 1) * perpage;
     const currRange = page * perpage;
-    const galleryItems = document.querySelectorAll('.gallery-item');
+    const galleryItems = document.querySelectorAll('.gallery-item-box');
     galleryItems.forEach((item, index) => {
         item.classList.add('hidden');
         if (index >= prevRange && index < currRange) {
@@ -152,7 +156,7 @@ function loadPagination(totalPages, currentPage) {
 };
 
 backButton.addEventListener('click', () => {
-    window.location.href = '/index.html';
+    window.location.href = 'index.html';
 });
 
 loadNextPage(1);

@@ -14,6 +14,7 @@ const showButton = document.querySelector('.show-button') || document.createElem
 
 const form = document.querySelector('form');
 const backToTopButton = document.querySelector('#backToTop');
+const spinner = document.querySelector('#spinner');
 let query;
 
 let favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos')) || {};
@@ -23,12 +24,18 @@ async function searchPhotos(query) {
     const url = `${baseUrl}?method=flickr.photos.search&api_key=${apiKey}&text=${query}&per_page=100&page=1&format=json&nojsoncallback=1`;
     
     try {
-        document.querySelector('#spinner').style.display = 'flex';
+        spinner.style.display = 'flex';
         const response = await fetch(url);
-        data = await response.json();        
+        data = await response.json();
     } catch (error) {
-        console.log(error);
-        return [];
+        const errorBox = document.querySelector('.error');
+        errorBox.style.display = 'flex';
+        errorBox.innerText = 'Oops... Something went wrong :(';
+        setTimeout(() => {
+            errorBox.style.display = 'none';
+            errorBox.innerText = '';
+        }, 3000);
+
     } finally {
         document.querySelector('#spinner').style.display = 'none';
     }
@@ -47,25 +54,29 @@ function loadPhotos() {
     gallery.innerHTML = '';
 
     photos.forEach(photo => {
+        const galleryItemBox = document.createElement('div');
+        galleryItemBox.className = 'gallery-item-box';
         const galleryItem = document.createElement('div');
         galleryItem.className = 'gallery-item';
         const imgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`;
-        const img = document.createElement('img');
+        galleryItem.style.backgroundImage = `url(${imgUrl})`;
+        
+        const img = new Image;
         img.src = imgUrl;
+        img.addEventListener('error', function(event) {
+            console.log(event.target)
+            galleryItemBox.remove();            
+        }); 
+        
         const title = document.createElement('h6');
         title.innerText = `${photo.title}`;
         const like = document.createElement('div');
         like.classList.add('like', 'like-no');
 
-        galleryItem.appendChild(img);
         galleryItem.appendChild(title);
         galleryItem.appendChild(like);
-        gallery.appendChild(galleryItem);
-
-        img.addEventListener('error', function(event) {
-            console.log(event.target)
-            event.target.parentElement.remove();            
-        });
+        galleryItemBox.appendChild(galleryItem);
+        gallery.appendChild(galleryItemBox);
 
         like.addEventListener('click', (event) => {
             event.target.classList.toggle('like-no');
