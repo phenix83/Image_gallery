@@ -12,6 +12,10 @@ html {
     scroll-behavior: smooth;
 }
 
+:root {
+    --transition: all .25s ease-in-out;
+}
+
 .gallery__loading {
     display: flex;
     justify-content: center;
@@ -384,6 +388,31 @@ transform: scale(1.1);
 .pagination-numbers li.next:hover {
     cursor: pointer;
     background-color: #fff;
+}
+
+.lightbox-enabled {
+    width: 100%;
+    object-fit: cover;
+    transition: all .25s ease-in-out;
+}
+
+.lightbox-container {
+    position: fixed;
+    min-width: 100vw;
+    min-height: 100vh;
+    background-color: rgb(255, 255, 255, .5);
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: var(--transition);
+}
+
+.lightbox-container.active {
+    opacity: 1;
+    pointer-events: all;
 }
 
 #backToTop {

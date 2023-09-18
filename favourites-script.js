@@ -109,13 +109,6 @@ function loadPagination(totalPages, currentPage) {
         li += `<li class="btn prev" onclick='loadNextPage(${currentPage - 1})'>&lt;</li>`;        
     }
 
-    // if (currentPage > 2) {
-    //     li += `<li class="numb" onclick='loadNextPage(1)'>1</li>`;
-    //     if (currentPage > 3) {
-    //         li += `<li class="dots">...</li>`;
-    //     }
-    // }
-
     if (currentPage == totalPages && totalPages != 1) {
         beforePages = beforePages - 2;
     } else if (currentPage == totalPages - 1){
@@ -141,13 +134,6 @@ function loadPagination(totalPages, currentPage) {
         }
         li += `<li class="numb ${activeLi}" onclick='loadNextPage(${i})'>${i}</li>`;
     }
-
-    // if (currentPage < totalPages - 1) {        
-    //     if (currentPage < totalPages - 2) {
-    //         li += `<li class="dots">...</li>`;
-    //     }
-    //     li += `<li class="numb" onclick='loadNextPage(${totalPages})'>${totalPages}</li>`;
-    // }
 
     if (currentPage < totalPages) {
         li += `<li class="btn next" onclick='loadNextPage(${currentPage + 1})'>&gt;</li>`;
