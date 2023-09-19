@@ -14,6 +14,8 @@ html {
 
 :root {
     --transition: all .25s ease-in-out;
+    --dark-faded: rgba(100, 100, 100, .4);
+    --white-faded: rgba(255, 255, 255, .5);
 }
 
 .gallery__loading {
@@ -393,7 +395,7 @@ transform: scale(1.1);
 .lightbox-enabled {
     width: 100%;
     object-fit: cover;
-    transition: all .25s ease-in-out;
+    transition: var(--transition);
 }
 
 .lightbox-container {
@@ -413,6 +415,53 @@ transform: scale(1.1);
 .lightbox-container.active {
     opacity: 1;
     pointer-events: all;
+}
+
+.lightbox-image-wrapper {
+    display: grid;
+    place-items: center;
+    max-width: 90vw;
+    min-height: 90vh;
+    position: relative;
+    box-shadow: 3px 3px 10px var(--dark-faded);
+}
+
+.lightbox-btn {
+    background-color: var(--white-faded);
+    display: grid;
+    place-items: center;
+    padding: .8rem;
+    color: var();
+    cursor: pointer;
+    transition: var(--transition);
+    position: absolute;
+}
+
+.lightbox-btn.inactive {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.lightbox-button:focus {
+    outline: none;
+}
+
+.left {
+    left: 5px;
+}
+
+.left:hover {
+    left: 5px;
+}
+
+.right {
+    right: 5px;
+}
+
+.lightbox-img {
+    width: 100%;
+    object-fit: cover;
+    cursor: zoom-out;
 }
 
 #backToTop {
