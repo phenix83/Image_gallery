@@ -19,6 +19,13 @@ let query;
 
 let favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos')) || {};
 
+
+const lightboxEnabled = document.querySelectorAll('.lightbox-enabled');
+const lightboxContainer = document.querySelector('.lightbox-container');
+const lightboxImage = document.querySelector('.lightbox-image');
+
+
+
 async function searchPhotos(query) {
     if (!query) return;
     const url = `${baseUrl}?method=flickr.photos.search&api_key=${apiKey}&text=${query}&per_page=100&page=1&format=json&nojsoncallback=1`;
@@ -100,7 +107,10 @@ function loadPhotos() {
             } else {
                 document.querySelector('.show-button').remove();
             }
-        });        
+        });
+        galleryItem.addEventListener('click', (e) => {
+            lightboxContainer.classList.add('active');
+        })
     });
     console.log(data);
     loadPagination(totalPages, currentPage);
@@ -208,4 +218,13 @@ window.onscroll = function() {scrollFunction()};
 
 backToTopButton.addEventListener('click', () => {
     window.scrollTo(0, 0);
+})
+
+
+
+lightboxEnabled.forEach(image => {
+    image.addEventListener('click', (e) => {
+        lightboxContainer.classList.add('active');
+        console.log(e.dataset.imagesrc);
+    })
 })
