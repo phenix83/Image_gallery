@@ -21,10 +21,61 @@ let favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos')) || {};
 
 
 const lightboxEnabled = document.querySelectorAll('.lightbox-enabled');
+const lightboxArray = Array.from(lightboxEnabled);
+const lastImage = lightboxArray.length - 1;
 const lightboxContainer = document.querySelector('.lightbox-container');
 const lightboxImage = document.querySelector('.lightbox-image');
+ 
+const lightboxBtns = document.querySelectorAll('.lightbox-btn');
+const lightboxBtnRight = document.querySelector('#right');
+const lightboxBtnLeft = document.querySelector('#left');
+let activeImage;
 
+const showLightbox = () => {lightboxContainer.classList.add('active')};
+const hideLightbox = () => {lightboxContainer.classList.remove('active')};
+const setActiveImage = (image) => {
+    lightboxImage.src = image.src;
+    activeImage = lightboxArray.indexOf(image);
+    removeBtnInactiveClass();
+    switch (activeImage) {
+        case 0:
+            lightboxBtnLeft.classList.add('inactive');
+            break;
+        case lastImage:
+            lightboxBtnRight .classList.add('inactive');
+            break;
+        default:
+            removeBtnInactiveClass();
+    }
+}
 
+const removeBtnInactiveClass = () => {
+    lightboxBtns.forEach(btn => {
+        btn.classList.remove('inactive');
+    })
+}
+
+const removeBtnAnimation = () => {
+    lightboxBtns.forEach(btn => {
+        setTimeout( function() {btn.blur()}, 200)
+    })
+}
+
+const transitionSlidesLeft = () => {
+    lightboxBtnLeft.focus();
+    activeImage === 0 ? setActiveImage(lightboxArray[lastImage]) : setActiveImage(lightboxArray[activeImage].previousElementSibling); 
+    removeBtnAnimation(); 
+}
+
+const transitionSlidesRight = () => {
+    lightboxBtnRight.focus();
+    activeImage === lastImage ? setActiveImage(lightboxArray[0]) : setActiveImage(lightboxArray[activeImage].nextElementSibling);
+    removeBtnAnimation(); 
+}
+
+const transitionSlideHandler = (moveItem) => {
+    moveItem.includes('left') ? transitionSlidesLeft() : transitionSlidesRight();
+}
 
 async function searchPhotos(query) {
     if (!query) return;
@@ -33,7 +84,7 @@ async function searchPhotos(query) {
     try {
         spinner.style.display = 'flex';
         const response = await fetch(url);
-        data = await response.json();
+        data = await response.json();        
     } catch (error) {
         const errorBox = document.querySelector('.error');
         errorBox.style.display = 'flex';
@@ -54,6 +105,12 @@ async function searchPhotos(query) {
     currentPage = 1;
 
     loadPhotos(data);
+}
+
+async function searchLightboxPhotos() {
+    const urlLightbox = `${baseUrl}?method=flickr.photos.search&api_key=${apiKey}&format=json&nojsoncallback=1`;
+    const response = await fetch(urlLightbox);
+    const dataLigtbox = await response.json();
 }
 
 function loadPhotos() {        
@@ -86,6 +143,7 @@ function loadPhotos() {
         gallery.appendChild(galleryItemBox);
 
         like.addEventListener('click', (event) => {
+            event.stopPropagation();
             event.target.classList.toggle('like-no');
             event.target.classList.toggle('like-yes');
 
@@ -109,7 +167,7 @@ function loadPhotos() {
             }
         });
         galleryItem.addEventListener('click', (e) => {
-            lightboxContainer.classList.add('active');
+            showLightbox();
         })
     });
     console.log(data);
@@ -222,9 +280,28 @@ backToTopButton.addEventListener('click', () => {
 
 
 
+
+
 lightboxEnabled.forEach(image => {
     image.addEventListener('click', (e) => {
-        lightboxContainer.classList.add('active');
-        console.log(e.dataset.imagesrc);
+        showLightbox();
+        setActiveImage(image);
     })
+})
+
+lightboxContainer.addEventListener('click', () => {hideLightbox()});
+
+lightboxBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        transitionSlideHandler(e.currentTarget.id);
+    })
+})
+
+window.addEventListener('keydown', (e) => {
+    if(!lightboxContainer.classList.contains('.active')) return;
+    if (e.key.includes('Left') || e.key.includes('Right')) {
+        e.preventDefault();
+        transitionSlideHandler(e.key.toLocaleLowerCase())
+    }
 })
