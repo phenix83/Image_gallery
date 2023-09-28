@@ -20,10 +20,11 @@ let query;
 let favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos')) || {};
 
 
-const lightboxEnabled = document.querySelectorAll('.lightbox-enabled');
-const lightboxArray = Array.from(lightboxEnabled);
+const lightboxEnabled = document.querySelectorAll('div[data-imagesrc]');
+const lightboxArray = Array.from(gallery);
 const lastImage = lightboxArray.length - 1;
 const lightboxContainer = document.querySelector('.lightbox-container');
+const lightboxImageWrapper = document.querySelector('.lightbox-image-wrapper');
 const lightboxImage = document.querySelector('.lightbox-image');
  
 const lightboxBtns = document.querySelectorAll('.lightbox-btn');
@@ -34,7 +35,6 @@ let activeImage;
 const showLightbox = () => {lightboxContainer.classList.add('active')};
 const hideLightbox = () => {lightboxContainer.classList.remove('active')};
 const setActiveImage = (image) => {
-    lightboxImage.src = image.src;
     activeImage = lightboxArray.indexOf(image);
     removeBtnInactiveClass();
     switch (activeImage) {
@@ -42,7 +42,7 @@ const setActiveImage = (image) => {
             lightboxBtnLeft.classList.add('inactive');
             break;
         case lastImage:
-            lightboxBtnRight .classList.add('inactive');
+            lightboxBtnRight.classList.add('inactive');
             break;
         default:
             removeBtnInactiveClass();
@@ -102,15 +102,9 @@ async function searchPhotos(query) {
     perpage = data.photos.perpage;
     total = data.photos.total;
     totalPages = Math.ceil(total / perpage);
-    currentPage = 1;
+    currentPage = 1;    
 
     loadPhotos(data);
-}
-
-async function searchLightboxPhotos() {
-    const urlLightbox = `${baseUrl}?method=flickr.photos.search&api_key=${apiKey}&format=json&nojsoncallback=1`;
-    const response = await fetch(urlLightbox);
-    const dataLigtbox = await response.json();
 }
 
 function loadPhotos() {        
@@ -122,6 +116,8 @@ function loadPhotos() {
         galleryItemBox.className = 'gallery-item-box';
         const galleryItem = document.createElement('div');
         galleryItem.className = 'gallery-item';
+        const lightboxImgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`;
+        galleryItem.setAttribute("data-imagesrc", `${lightboxImgUrl}`);
         const imgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`;
         galleryItem.style.backgroundImage = `url(${imgUrl})`;
         
@@ -166,8 +162,10 @@ function loadPhotos() {
                 document.querySelector('.show-button').remove();
             }
         });
-        galleryItem.addEventListener('click', (e) => {
+        galleryItem.addEventListener('click', () => {
             showLightbox();
+            lightboxImageWrapper.style.backgroundImage = `url(${lightboxImgUrl})`;
+            setActiveImage();
         })
     });
     console.log(data);
@@ -282,12 +280,14 @@ backToTopButton.addEventListener('click', () => {
 
 
 
-lightboxEnabled.forEach(image => {
-    image.addEventListener('click', (e) => {
-        showLightbox();
-        setActiveImage(image);
-    })
-})
+// lightboxEnabled.forEach(image => {
+//     image.addEventListener('click', (e) => {
+//         showLightbox();
+//         lightboxImgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_h.jpg`;
+//         lightboxImageWrapper.style.backgroundImage = `url(${lightboxImgUrl})`;        
+//         setActiveImage(image);
+//     })
+// })
 
 lightboxContainer.addEventListener('click', () => {hideLightbox()});
 

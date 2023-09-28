@@ -435,7 +435,11 @@ transform: scale(1.1);
     display: grid;
     place-items: center;
     max-width: 90vw;
-    min-height: 90vh;
+    max-height: 90vh;
+    width: 100%;
+    height: -webkit-fill-available;
+    background-position: center;
+    background-repeat: no-repeat;
     position: relative;
     box-shadow: 3px 3px 10px var(--dark-faded);
 }
