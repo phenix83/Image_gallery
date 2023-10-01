@@ -20,7 +20,8 @@ let query;
 let favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos')) || {};
 
 
-const lightboxEnabled = document.querySelectorAll('div[data-imagesrc]');
+// const lightboxEnabled = document.querySelectorAll("div[data-imagesrc]");
+// console.log(lightboxEnabled);
 const lightboxArray = Array.from(gallery);
 const lastImage = lightboxArray.length - 1;
 const lightboxContainer = document.querySelector('.lightbox-container');
@@ -35,7 +36,9 @@ let activeImage;
 const showLightbox = () => {lightboxContainer.classList.add('active')};
 const hideLightbox = () => {lightboxContainer.classList.remove('active')};
 const setActiveImage = (image) => {
+    // lightboxImageWrapper.style.backgroundImage = image.dataset.imagesrc;
     activeImage = lightboxArray.indexOf(image);
+    console.log(activeImage);
     removeBtnInactiveClass();
     switch (activeImage) {
         case 0:
@@ -43,10 +46,12 @@ const setActiveImage = (image) => {
             break;
         case lastImage:
             lightboxBtnRight.classList.add('inactive');
+            console.log(lastImage);
             break;
         default:
             removeBtnInactiveClass();
     }
+    console.log(lightboxArray);
 }
 
 const removeBtnInactiveClass = () => {
@@ -93,7 +98,6 @@ async function searchPhotos(query) {
             errorBox.style.display = 'none';
             errorBox.innerText = '';
         }, 3000);
-
     } finally {
         document.querySelector('#spinner').style.display = 'none';
     }
@@ -118,6 +122,8 @@ function loadPhotos() {
         galleryItem.className = 'gallery-item';
         const lightboxImgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`;
         galleryItem.setAttribute("data-imagesrc", `${lightboxImgUrl}`);
+        const lightboxEnabled = document.querySelectorAll("div[data-imagesrc]");
+        // console.log(lightboxEnabled);
         const imgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`;
         galleryItem.style.backgroundImage = `url(${imgUrl})`;
         
@@ -154,7 +160,6 @@ function loadPhotos() {
             console.log(JSON.parse(localStorage.getItem('favouritePhotos')));
 
             if (Object.keys(favouritePhotos).length !== 0) {
-                // showButton = document.querySelector('.show-button') || document.createElement('button');
                 showButton.className = 'show-button';
                 showButton.innerText = 'Show Gallery';
                 form.appendChild(showButton);
@@ -162,11 +167,19 @@ function loadPhotos() {
                 document.querySelector('.show-button').remove();
             }
         });
-        galleryItem.addEventListener('click', () => {
+        galleryItem.addEventListener('click', (e) => {
             showLightbox();
             lightboxImageWrapper.style.backgroundImage = `url(${lightboxImgUrl})`;
-            setActiveImage();
         })
+        // lightboxEnabled.forEach(image => {
+        //     image.addEventListener('click', (e) => {
+        //         showLightbox();
+        //         lightboxImageWrapper.style.backgroundImage = `url(${lightboxImgUrl})`;
+        //         // // lightboxImgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`;
+        //         // // lightboxImageWrapper.style.backgroundImage = e.target.dataset.imagesrc;
+        //         // setActiveImage(image);
+        //     })
+        // })
     });
     console.log(data);
     loadPagination(totalPages, currentPage);
@@ -280,20 +293,14 @@ backToTopButton.addEventListener('click', () => {
 
 
 
-// lightboxEnabled.forEach(image => {
-//     image.addEventListener('click', (e) => {
-//         showLightbox();
-//         lightboxImgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_h.jpg`;
-//         lightboxImageWrapper.style.backgroundImage = `url(${lightboxImgUrl})`;        
-//         setActiveImage(image);
-//     })
-// })
+
 
 lightboxContainer.addEventListener('click', () => {hideLightbox()});
 
 lightboxBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
         e.stopPropagation();
+        console.log(e.currentTarget.id);
         transitionSlideHandler(e.currentTarget.id);
     })
 })
