@@ -20,10 +20,10 @@ let query;
 let favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos')) || {};
 
 
-// const lightboxEnabled = document.querySelectorAll("div[data-imagesrc]");
-// console.log(lightboxEnabled);
-const lightboxArray = Array.from(gallery);
-const lastImage = lightboxArray.length - 1;
+let lightboxEnabled;
+// const lightboxEnabled = document.querySelectorAll("gallery-item");
+let lightboxArray;
+let lastImage;
 const lightboxContainer = document.querySelector('.lightbox-container');
 const lightboxImageWrapper = document.querySelector('.lightbox-image-wrapper');
 const lightboxImage = document.querySelector('.lightbox-image');
@@ -35,8 +35,9 @@ let activeImage;
 
 const showLightbox = () => {lightboxContainer.classList.add('active')};
 const hideLightbox = () => {lightboxContainer.classList.remove('active')};
+
 const setActiveImage = (image) => {
-    // lightboxImageWrapper.style.backgroundImage = image.dataset.imagesrc;
+    lightboxImageWrapper.style.backgroundImage = `url(${image.dataset.imagesrc})`;
     activeImage = lightboxArray.indexOf(image);
     console.log(activeImage);
     removeBtnInactiveClass();
@@ -51,8 +52,9 @@ const setActiveImage = (image) => {
         default:
             removeBtnInactiveClass();
     }
-    console.log(lightboxArray);
 }
+
+
 
 const removeBtnInactiveClass = () => {
     lightboxBtns.forEach(btn => {
@@ -67,6 +69,11 @@ const removeBtnAnimation = () => {
 }
 
 const transitionSlidesLeft = () => {
+    /*
+        currentUrl = lightBox
+    */
+//    const currentUrl = lightboxImageWrapper.style.backgroundImage;
+//    if (currentUrl == lightboxImgUrl) 
     lightboxBtnLeft.focus();
     activeImage === 0 ? setActiveImage(lightboxArray[lastImage]) : setActiveImage(lightboxArray[activeImage].previousElementSibling); 
     removeBtnAnimation(); 
@@ -109,6 +116,7 @@ async function searchPhotos(query) {
     currentPage = 1;    
 
     loadPhotos(data);
+    console.log(lightboxArray);
 }
 
 function loadPhotos() {        
@@ -122,8 +130,9 @@ function loadPhotos() {
         galleryItem.className = 'gallery-item';
         const lightboxImgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`;
         galleryItem.setAttribute("data-imagesrc", `${lightboxImgUrl}`);
-        const lightboxEnabled = document.querySelectorAll("div[data-imagesrc]");
-        // console.log(lightboxEnabled);
+        lightboxEnabled = document.querySelectorAll("div[data-imagesrc]");
+        lightboxArray = Array.from(lightboxEnabled);
+        lastImage = lightboxArray.length - 1;
         const imgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`;
         galleryItem.style.backgroundImage = `url(${imgUrl})`;
         
@@ -169,8 +178,15 @@ function loadPhotos() {
         });
         galleryItem.addEventListener('click', (e) => {
             showLightbox();
-            lightboxImageWrapper.style.backgroundImage = `url(${lightboxImgUrl})`;
+            // lightboxImageWrapper.style.backgroundImage = `url(${e.currentTarget.dataset.imagesrc})`;
+            console.log(e.currentTarget);
+            console.log(e.currentTarget.dataset.imagesrc);
+            
+            console.log(lightboxEnabled);
+            console.log(lightboxArray);
+            setActiveImage(e.currentTarget);
         })
+        
         // lightboxEnabled.forEach(image => {
         //     image.addEventListener('click', (e) => {
         //         showLightbox();
