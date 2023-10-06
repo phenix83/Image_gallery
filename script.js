@@ -37,7 +37,7 @@ const showLightbox = () => {lightboxContainer.classList.add('active')};
 const hideLightbox = () => {lightboxContainer.classList.remove('active')};
 
 const setActiveImage = (image) => {
-    lightboxImageWrapper.style.backgroundImage = `url(${image.dataset.imagesrc})`;
+    lightboxImageWrapper.style.backgroundImage = `url('${image.dataset.imagesrc}')`;
     activeImage = lightboxArray.indexOf(image);
     console.log(activeImage);
     removeBtnInactiveClass();
@@ -53,7 +53,6 @@ const setActiveImage = (image) => {
             removeBtnInactiveClass();
     }
 }
-
 
 
 const removeBtnInactiveClass = () => {
@@ -100,7 +99,7 @@ async function searchPhotos(query) {
     } catch (error) {
         const errorBox = document.querySelector('.error');
         errorBox.style.display = 'flex';
-        errorBox.innerText = 'Oops... Something went wrong :(';
+        errorBox.innerText = 'Oops... Something went wrong :( Please try again';
         setTimeout(() => {
             errorBox.style.display = 'none';
             errorBox.innerText = '';
@@ -191,9 +190,9 @@ function loadPhotos() {
         //     image.addEventListener('click', (e) => {
         //         showLightbox();
         //         lightboxImageWrapper.style.backgroundImage = `url(${lightboxImgUrl})`;
-        //         // // lightboxImgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`;
-        //         // // lightboxImageWrapper.style.backgroundImage = e.target.dataset.imagesrc;
-        //         // setActiveImage(image);
+        //         // lightboxImgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`;
+        //         lightboxImageWrapper.style.backgroundImage = e.target.dataset.imagesrc;
+        //         setActiveImage(image);
         //     })
         // })
     });
