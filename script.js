@@ -19,11 +19,10 @@ let query;
 
 let favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos')) || {};
 
-
 let lightboxEnabled;
-// const lightboxEnabled = document.querySelectorAll("gallery-item");
 let lightboxArray;
 let lastImage;
+
 const lightboxContainer = document.querySelector('.lightbox-container');
 const lightboxImageWrapper = document.querySelector('.lightbox-image-wrapper');
 const lightboxImage = document.querySelector('.lightbox-image');
@@ -39,7 +38,6 @@ const hideLightbox = () => {lightboxContainer.classList.remove('active')};
 const setActiveImage = (image) => {
     lightboxImageWrapper.style.backgroundImage = `url('${image.dataset.imagesrc}')`;
     activeImage = lightboxArray.indexOf(image);
-    console.log(activeImage);
     removeBtnInactiveClass();
     switch (activeImage) {
         case 0:
@@ -54,7 +52,6 @@ const setActiveImage = (image) => {
     }
 }
 
-
 const removeBtnInactiveClass = () => {
     lightboxBtns.forEach(btn => {
         btn.classList.remove('inactive');
@@ -68,19 +65,13 @@ const removeBtnAnimation = () => {
 }
 
 const transitionSlidesLeft = () => {
-    /*
-        currentUrl = lightBox
-    */
-//    const currentUrl = lightboxImageWrapper.style.backgroundImage;
-//    if (currentUrl == lightboxImgUrl) 
-    lightboxBtnLeft.focus();
-    activeImage === 0 ? setActiveImage(lightboxArray[lastImage]) : setActiveImage(lightboxArray[activeImage].previousElementSibling); 
     removeBtnAnimation(); 
+    activeImage === 0 ? setActiveImage(lightboxArray[lastImage]) : setActiveImage(lightboxArray[activeImage - 1]);
+
 }
 
 const transitionSlidesRight = () => {
-    lightboxBtnRight.focus();
-    activeImage === lastImage ? setActiveImage(lightboxArray[0]) : setActiveImage(lightboxArray[activeImage].nextElementSibling);
+    activeImage === lastImage ? setActiveImage(lightboxArray[0]) : setActiveImage(lightboxArray[activeImage + 1]);
     removeBtnAnimation(); 
 }
 
@@ -115,7 +106,6 @@ async function searchPhotos(query) {
     currentPage = 1;    
 
     loadPhotos(data);
-    console.log(lightboxArray);
 }
 
 function loadPhotos() {        
@@ -129,19 +119,8 @@ function loadPhotos() {
         galleryItem.className = 'gallery-item';
         const lightboxImgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`;
         galleryItem.setAttribute("data-imagesrc", `${lightboxImgUrl}`);
-        lightboxEnabled = document.querySelectorAll("div[data-imagesrc]");
-        lightboxArray = Array.from(lightboxEnabled);
-        lastImage = lightboxArray.length - 1;
         const imgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`;
         galleryItem.style.backgroundImage = `url(${imgUrl})`;
-        
-        const img = new Image;
-        img.src = imgUrl;
-        img.addEventListener('error', function(event) {
-            console.log(event.target)
-            galleryItemBox.remove();            
-        }); 
-        
         const title = document.createElement('h6');
         title.innerText = `${photo.title}`;
         const like = document.createElement('div');
@@ -151,6 +130,13 @@ function loadPhotos() {
         galleryItem.appendChild(like);
         galleryItemBox.appendChild(galleryItem);
         gallery.appendChild(galleryItemBox);
+
+        const img = new Image;
+        img.src = imgUrl;
+        img.addEventListener('error', function(event) {
+            console.log(event.target)
+            galleryItemBox.remove();            
+        });
 
         like.addEventListener('click', (event) => {
             event.stopPropagation();
@@ -175,27 +161,17 @@ function loadPhotos() {
                 document.querySelector('.show-button').remove();
             }
         });
+
         galleryItem.addEventListener('click', (e) => {
             showLightbox();
-            // lightboxImageWrapper.style.backgroundImage = `url(${e.currentTarget.dataset.imagesrc})`;
-            console.log(e.currentTarget);
-            console.log(e.currentTarget.dataset.imagesrc);
-            
-            console.log(lightboxEnabled);
-            console.log(lightboxArray);
             setActiveImage(e.currentTarget);
         })
-        
-        // lightboxEnabled.forEach(image => {
-        //     image.addEventListener('click', (e) => {
-        //         showLightbox();
-        //         lightboxImageWrapper.style.backgroundImage = `url(${lightboxImgUrl})`;
-        //         // lightboxImgUrl = `https://farm${photo.farm}.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}_b.jpg`;
-        //         lightboxImageWrapper.style.backgroundImage = e.target.dataset.imagesrc;
-        //         setActiveImage(image);
-        //     })
-        // })
     });
+
+    lightboxEnabled = document.querySelectorAll("div[data-imagesrc]");
+    lightboxArray = Array.from(lightboxEnabled);
+    lastImage = lightboxArray.length - 1;
+
     console.log(data);
     loadPagination(totalPages, currentPage);
 };
@@ -208,9 +184,9 @@ async function loadNextPage(page) {
     photos = data.photos.photo;
     loadPhotos();
     loadPagination(totalPages, currentPage);
-    // window.scrollTo(0, 0);
 };
 
+// Pagination
 
 function loadPagination(totalPages, currentPage) {
     let li = '';
@@ -269,7 +245,6 @@ function loadPagination(totalPages, currentPage) {
     pagination.innerHTML = li;
 };
 
-
 window.addEventListener('DOMContentLoaded', () => {
     if (Object.keys(favouritePhotos).length !== 0) {        
         showButton.className = 'show-button';
@@ -282,13 +257,14 @@ showButton.addEventListener('click', () => {
     window.location.href = 'favourites-page.html';
 });
 
-
 form.addEventListener('submit', event => {
     event.preventDefault();
     const searchBox = document.querySelector('.search-box input');
     query = searchBox.value;
     searchPhotos(query);
 });
+
+// Scroll to up
 
 const scrollFunction = () => {
     if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
@@ -302,20 +278,15 @@ window.onscroll = function() {scrollFunction()};
 
 backToTopButton.addEventListener('click', () => {
     window.scrollTo(0, 0);
-})
+});
 
-
-
-
-
-
+// Lightbox eventlisteners
 
 lightboxContainer.addEventListener('click', () => {hideLightbox()});
 
 lightboxBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        console.log(e.currentTarget.id);
         transitionSlideHandler(e.currentTarget.id);
     })
 })
