@@ -24,6 +24,9 @@ html {
     --primary: #08417d;
     --dark-faded: rgba(100, 100, 100, .4);
     --white-faded: rgba(255, 255, 255, .5);
+    --magenta: #AD2E95;
+    --purple: rgba(178, 155, 199, .7);
+    --container: rgba(161,195,209, .7);
 }
 
 .gallery__loading {
@@ -74,6 +77,10 @@ html {
     width: 100%;    
 }
 
+/* .container .search-panel:focus-within {
+    border: 1px solid #e64398;
+} */
+
 .search-panel input {
     height: 100%;
     width: 100%;
@@ -83,6 +90,10 @@ html {
     padding: 0 15px 0 45px;
     color: #f0ebf4;    
     border-radius: 6px;
+}
+
+.search-panel input:focus {
+    border: 1px solid #f172a1;
 }
 
 ::placeholder {
@@ -442,11 +453,13 @@ transform: scale(1.1);
 }
 
 .lightbox-btn {
-    background-color: var(--white-faded);
+    background-color: var(--container);
     display: grid;
     place-items: center;
     padding: .8rem 1rem .8rem 1rem;
-    color: var(--primary);
+    font-size: 24px;
+    color: var(--magenta);
+    border-radius: 4px;
     cursor: pointer;
     transition: var(--transition);
     position: absolute;

@@ -129,8 +129,19 @@ function loadPhotos() {
         img.src = imgUrl;
         img.addEventListener('error', function(event) {
             console.log(event.target)
-            galleryItemBox.remove();            
+            galleryItemBox.remove();
         });
+
+        const lightboxImg = new Image;
+        lightboxImg.src = lightboxImgUrl;
+        lightboxImg.addEventListener('error', (e) => {
+            console.log("e.target", e.target);
+            if (e.target == lightboxArray.target) {
+                // console.log('lightboxArray', lightboxArray)
+                // console.log('Image', Image)
+                Image.remove();
+            }            
+        })
 
         like.addEventListener('click', (event) => {
             event.stopPropagation();
