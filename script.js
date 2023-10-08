@@ -9,28 +9,23 @@ let totalPages;
 let pagination = document.querySelector('.pagination-numbers');
 let currentPage = 5;
 
+const form = document.querySelector('form');
 const gallery = document.querySelector('.gallery-box');
 const showButton = document.querySelector('.show-button') || document.createElement('button');
-
-const form = document.querySelector('form');
 const backToTopButton = document.querySelector('#backToTop');
 const spinner = document.querySelector('#spinner');
 let query;
 
 let favouritePhotos = JSON.parse(localStorage.getItem('favouritePhotos')) || {};
 
-let lightboxEnabled;
-let lightboxArray;
-let lastImage;
-
 const lightboxContainer = document.querySelector('.lightbox-container');
 const lightboxImageWrapper = document.querySelector('.lightbox-image-wrapper');
-const lightboxImage = document.querySelector('.lightbox-image');
  
 const lightboxBtns = document.querySelectorAll('.lightbox-btn');
 const lightboxBtnRight = document.querySelector('#right');
 const lightboxBtnLeft = document.querySelector('#left');
-let activeImage;
+
+let lightboxEnabled, lightboxArray, activeImage, lastImage;
 
 const showLightbox = () => {lightboxContainer.classList.add('active')};
 const hideLightbox = () => {lightboxContainer.classList.remove('active')};
@@ -67,7 +62,6 @@ const removeBtnAnimation = () => {
 const transitionSlidesLeft = () => {
     removeBtnAnimation(); 
     activeImage === 0 ? setActiveImage(lightboxArray[lastImage]) : setActiveImage(lightboxArray[activeImage - 1]);
-
 }
 
 const transitionSlidesRight = () => {
