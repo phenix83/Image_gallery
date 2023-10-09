@@ -10,7 +10,6 @@
 
 body {
     display: grid;
-    /* place-items: center; */
     align-content: center;
     min-height: 100vh;
 }
@@ -47,7 +46,6 @@ html {
 .container {
     position: relative;
     min-height: 100vh;
-    /* max-width: 1000px; */
     background-color: #a1c3d1;
     width: 100%;
     margin: 0 auto;    
@@ -76,10 +74,6 @@ html {
     max-width: 400px;
     width: 100%;    
 }
-
-/* .container .search-panel:focus-within {
-    border: 1px solid #e64398;
-} */
 
 .search-panel input {
     height: 100%;
@@ -246,7 +240,6 @@ html {
     width: 210px;
     height: 300px;
     border-radius: 6px;
-    /* overflow: hidden; */
     background-size: cover;
     background-repeat: no-repeat;
     transition: transform 0.2s linear;
@@ -321,10 +314,6 @@ html {
     position: absolute;
 }
 
-/* .recycle-bin:hover {
-transform: scale(1.1);
-} */
-
 .pagination-container {
     max-width: 480px;
     margin: 50px auto 0 auto;
@@ -345,11 +334,6 @@ transform: scale(1.1);
 .pagination-numbers .next {
     margin-left: 10px;
 }
-
-/* .pagination-container button:hover {
-    background-color: #fff;
-    transition: all 0.2s ease-in-out;
-} */
 
 .pagination-numbers {
     display: flex;
@@ -489,12 +473,6 @@ transform: scale(1.1);
 .right:hover, .right:focus {
     right: 0px;
 }
-
-/* .lightbox-image {
-    width: 100%;
-    object-fit: cover;
-    cursor: zoom-out;
-} */
 
 #backToTop {
     display: none;
