@@ -132,17 +132,6 @@ function loadPhotos() {
             galleryItemBox.remove();
         });
 
-        const lightboxImg = new Image;
-        lightboxImg.src = lightboxImgUrl;
-        lightboxImg.addEventListener('error', (e) => {
-            console.log("e.target", e.target);
-            if (e.target == lightboxArray.target) {
-                // console.log('lightboxArray', lightboxArray)
-                // console.log('Image', Image)
-                Image.remove();
-            }            
-        })
-
         like.addEventListener('click', (event) => {
             event.stopPropagation();
             event.target.classList.toggle('like-no');
@@ -169,13 +158,14 @@ function loadPhotos() {
 
         galleryItem.addEventListener('click', (e) => {
             showLightbox();
+            lightboxEnabled = document.querySelectorAll("div[data-imagesrc]");
+            lightboxArray = Array.from(lightboxEnabled);
+            lastImage = lightboxArray.length - 1;
             setActiveImage(e.currentTarget);
         })
     });
 
-    lightboxEnabled = document.querySelectorAll("div[data-imagesrc]");
-    lightboxArray = Array.from(lightboxEnabled);
-    lastImage = lightboxArray.length - 1;
+    
 
     console.log(data);
     loadPagination(totalPages, currentPage);

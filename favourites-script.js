@@ -30,23 +30,16 @@ function showMyFavouritesPhotos() {
 
         const imgUrl = url;
         galleryItem.style.backgroundImage = `url(${imgUrl})`;
-        // console.log(favouritePhotos);
 
-        // const img = document.createElement('img');
-        // img.src = imgUrl;
         const title = document.createElement('h6');
         title.innerText = photoTitle;
         const recycleBin = document.createElement('div');
         recycleBin.classList.add('like', 'recycle-bin');
 
-        // galleryItem.appendChild(img);
         galleryItem.appendChild(title);
         galleryItemBox.appendChild(recycleBin);
         galleryItemBox.appendChild(galleryItem);
         gallery.appendChild(galleryItemBox);
-
-        // console.log("favouritePhotos", favouritePhotos);
-        // console.log(imgUrl);
 
         if (Object.keys(favouritePhotos).length !== 0) {
             clearButton = document.querySelector('.clear-button') || document.createElement('button');
